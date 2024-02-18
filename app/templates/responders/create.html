@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}Sussy Bakas - Create Responder{% endblock %}
+
+{% block root_style %}style="max-width: 500px;"{% endblock %}
+
+{% block content %}
+<h1 class="mb-3 text-center">Create Responder</h1>
+<form action="" method="POST">
+  {{ form.csrf_token }}
+  <div class="row">
+    <div class="col-sm mb-3">
+      <b>{{ form.first_name.label(class='form-label', for='first_name') }}</b>
+      {{ form.first_name(class='form-control', placeholder='Enter First Name') }}
+    </div>
+    <div class="col-sm mb-3">
+      <b>{{ form.last_name.label(class='form-label', for='last_name') }}</b>
+      {{ form.last_name(class='form-control', placeholder='Enter Last Name') }}
+    </div>
+  </div>
+  <div class="mb-3">
+    <b>{{ form.email_id.label(class='form-label', for='email_id') }}</b>
+    <div class="input-group {% if form.email_id.errors %}has-validation{% endif %}">
+      <span class="input-group-text" id="email-addon">@</span>
+      {% if form.email_id.errors %}
+      {{ form.email_id(class='form-control is-invalid', placeholder='Enter Email ID', aria_describedby='email-addon validation-error') }}
+      {% for error in form.email_id.errors %}
+      <div id="validation-error" class="invalid-feedback">
+        {{ error }}
+      </div>
+      {% endfor %}
+      {% else %}
+      {{ form.email_id(class='form-control', placeholder='Enter Email ID', aria_describedby='email-addon') }}
+      {% endif %}
+    </div>
+  </div>
+  <div class="mb-3">
+    <b>{{ form.phone.label(class='form-label', for='phone') }}</b>
+    <div class="input-group {% if form.phone.errors %}has-validation{% endif %}">
+      <span class="input-group-text" id="country-code-addon">+91</span>
+      {% if form.phone.errors %}
+      {{ form.phone(class='form-control is-invalid', placeholder='Enter Phone #', aria_describedby='country-code-addon validation-error') }}
+      {% for error in form.phone.errors %}
+      <div id="validation-error" class="invalid-feedback">
+        {{ error }}
+      </div>
+      {% endfor %}
+      {% else %}
+      {{ form.phone(class='form-control', placeholder='Enter Phone #', aria_describedby='country-code-addon') }}
+      {% endif %}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm mb-3">
+      <b>{{ form.area.label(class='form-label', for='area') }}</b>
+      {{ form.area(class='form-select') }}
+    </div>
+    <div class="col-sm mb-3">
+      <b>{{ form.preferred_language.label(class='form-label', for='preferred_language') }}</b>
+      {{ form.preferred_language(class='form-select') }}
+    </div>
+  </div>
+  {{ form.submit(class='btn btn-primary text-center w-100') }}
+</form>
+{% endblock %}

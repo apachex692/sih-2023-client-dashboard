@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="{{ url_for('static', filename='images/branding/favicon.ico') }}" type="image/x-icon">
+  <title>Sussy Bakas - {{ title }}</title>
+  <style>
+    body {
+      background-color: #000000;
+      color: #dee2e6;
+      font-family: "Helvetica Neue", Roboto, "Liberation Sans", Arial, system-ui;
+    }
+    .content {
+      background-color: #212529;
+      border: 1px solid #495057;
+      border-radius: 10px;
+      margin: 10px auto;
+      max-width: 650px;
+      padding: 10px;
+      text-align: center;
+    }
+    .content h1 {
+      margin: 10px 0px;
+    }
+  </style>
+</head>
+<body>
+  <div class="content">
+    <img src="{{ url_for('static', filename='images/branding/192x192.png') }}" alt="Logo">
+    <h1>Oops, You Made the Website Go Brr...</h1>
+    <em>{{ title }}</em>
+    <hr>
+    <p>{{ message }}</p>
+  </div>
+</body>
+</html>

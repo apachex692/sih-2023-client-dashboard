@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block title %}Sussy Bakas - Lights{% endblock %}
+
+{% block style %}
+<style>
+  td, th, .stats-wrapper {
+    white-space: nowrap;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1 class="mb-3 text-center">Lights</h1>
+<div class="d-flex align-items-center flex-wrap justify-content-center mb-3">
+  <div class="row mb-3 mb-lg-0">
+    <div class="col">
+      <a href="{{ url_for('lights.register_handle') }}" class="btn btn-primary" style="white-space: nowrap;">
+        Register Street Light
+      </a>
+    </div>
+    <div class="col">
+      <a href="#" class="btn btn-success" style="white-space: nowrap;">
+        Export
+      </a>
+    </div>
+  </div>
+  <div class="d-none d-lg-block vr mx-3"></div>
+  <div class="row">
+    <div class="col-md mb-1 mb-md-0">
+      <div class="d-flex align-items-center border p-1 rounded">
+        <div class="d-inline-block rounded text-bg-success me-2" style="width: 30px; height: 30px;"></div>
+        <div class="stats-wrapper"><b>Active</b> (1250)</div>
+      </div>
+    </div>
+    <div class="col-md mb-1 mb-md-0">
+      <div class="d-flex align-items-center border p-1 rounded">
+        <div class="d-inline-block rounded text-bg-warning me-2" style="width: 30px; height: 30px;"></div>
+        <div class="stats-wrapper"><b>Maintenance</b> (2)</div>
+      </div>
+    </div>
+    <div class="col-md">
+      <div class="d-flex align-items-center border p-1 rounded">
+        <div class="d-inline-block rounded text-bg-danger me-2" style="width: 30px; height: 30px;"></div>
+        <div class="stats-wrapper"><b>Inactive</b> (2)</div>
+      </div>
+    </div>
+  </div>
+</div>
+{% if lights.items | length %}
+<div class="table-responsive border mb-3 mx-auto rounded">
+  <table class="table table-hover mb-0">
+    <caption class="ms-2">Displaying: {{ lights.items | length }}/{{ lights.total }}</caption>
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Area</th>
+        <th scope="col">Coordinates</th>
+        <th scope="col">Status</th>
+        <th scope="col">Last Maintenance</th>
+        <th scope="col">Automation</th>
+        <th scope="col">Brightness (%)</th>
+        <th scope="col" colspan="3">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for light in lights.items %}
+      <tr>
+        <th scope="row">{{ loop.index }}</th>
+        <td>{{ light.area }}</td>
+        <td>({{ light.latitude }}, {{ light.longitude }})</td>
+        <td>{{ light.status_code }}</td>
+        <td>{{ light.last_maintenance.strftime("%d/%m/%Y %H:%M:%S") }}</td>
+        {% if light.automation_type == 0 %}
+        <td>No Automation</td>
+        {% elif light.automation_type == 1 %}
+        <td>Daylight-based</td>
+        {% else %}
+        <td>Time-based</td>
+        {% endif %}
+        <td>80</td>
+        <td>
+          <a href="{{ url_for('lights.update_handle', id=light.id) }}" class="text-warning"
+            style="text-decoration: none;">Update</a>
+        </td>
+        <td>
+          <a href="{{ url_for('lights.deregister_handle', id=light.id) }}" class="text-danger"
+            style="text-decoration: none;">Delete</a>
+        </td>
+        <td>
+          <a href="https://www.google.com/maps/place/{{ light.latitude }},{{ light.longitude }}"
+            style="text-decoration: none;">View in Map</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="alert alert-primary mx-auto mb-0 text-center" role="alert" style="max-width: 500px;">
+  <h4 class="alert-heading">No Lights Registered</h4>
+  <p class="mb-0">
+    There are no lights registered in the database. To add a light, click "Register Street Light" button.
+  </p>
+</div>
+{% endif %}
+<nav>
+  <ul class="mb-0 pagination">
+    {% for page in lights.iter_pages() %}
+    <li class="page-item">
+      {% if page %}
+      {% if page != lights.page %}
+      <a href="{{ url_for('lights.index_handle', page=page) }}" class="page-link">{{ page }}</a>
+      {% else %}
+      <a class="page-link">{{ page }}</a>
+      {% endif %}
+      {% else %}
+      <a class="page-link">...</a>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+</nav>
+{% endblock %}

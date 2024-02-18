@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Sussy Bakas - Register Street Light{% endblock %}
+
+{% block root_style %}style="max-width: 500px;"{% endblock %}
+
+{% block content %}
+<h1 class="mb-3 text-center">Register Street Light</h1>
+<form action="" method="POST">
+  {{ form.csrf_token }}
+  <div class="row">
+    <div class="col-sm mb-3">
+      <b>{{ form.latitude.label(class='form-label', for='latitude') }}</b>
+      {{ form.latitude(class='form-control', placeholder='Enter Latitude') }}
+    </div>
+    <div class="col-sm mb-3">
+      <b>{{ form.longitude.label(class='form-label', for='longitude') }}</b>
+      {{ form.longitude(class='form-control', placeholder='Enter Longitude') }}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm mb-3">
+      <b>{{ form.area.label(class='form-label', for='area') }}</b>
+      {{ form.area(class='form-select') }}
+    </div>
+    <div class="col-sm mb-3">
+      <b>{{ form.automation_type.label(class='form-label', for='automation_type') }}</b>
+      {{ form.automation_type(class='form-select') }}
+    </div>
+  </div>
+  {{ form.submit(class='btn btn-primary text-center w-100') }}
+</form>
+{% endblock %}

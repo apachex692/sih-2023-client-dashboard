@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Sussy Bakas - Log-in{% endblock %}
+
+{% block root_style %}style="max-width: 500px;"{% endblock %}
+
+{% block content %}
+<h1 class="mb-3 text-center">Log-in</h1>
+<form action="" method="POST">
+  {{ form.csrf_token }}
+  <div class="mb-3">
+    <b>{{ form.email_id.label(class='form-label', for='email_id') }}</b>
+    <div class="input-group {% if form.email_id.errors %}has-validation{% endif %}">
+      <span class="input-group-text" id="email-addon">@</span>
+      {% if form.email_id.errors %}
+      {{ form.email_id(class='form-control is-invalid', placeholder='Enter Email ID', aria_describedby='email-addon validation-error') }}
+      {% for error in form.email_id.errors %}
+      <div id="validation-error" class="invalid-feedback">
+        {{ error }}
+      </div>
+      {% endfor %}
+      {% else %}
+      {{ form.email_id(class='form-control', placeholder='Enter Email ID', aria_describedby='email-addon') }}
+      {% endif %}
+    </div>
+  </div>
+  <div class="mb-3">
+    <b>{{ form.password.label(class='form-label', for='password') }}</b>
+    {% if form.password.errors %}
+    {{ form.password(class='form-control is-invalid', placeholder='Enter your Super Secret Password', aria_describedby='validation-error') }}
+    {% for error in form.password.errors %}
+    <div id="validation-error" class="invalid-feedback">
+      {{ error }}
+    </div>
+    {% endfor %}
+    {% else %}
+    {{ form.password(class='form-control', placeholder='Enter your Super Secret Password') }}
+    {% endif %}
+  </div>
+  <div class="form-check mb-3">
+    {{ form.remember_me(class='form-check-input', for='remember_me') }}
+    <b>{{ form.remember_me.label(class='form-check-label', for='remember_me') }}</b>
+  </div>
+  {{ form.submit(class='btn btn-primary mb-3 text-center w-100') }}
+</form>
+<a class="d-block text-end" href="{{ url_for('auth.forgotpw_handle') }}" style="text-decoration: none;">Forgot Password</a>
+{% endblock %}

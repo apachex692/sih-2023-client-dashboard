@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Sussy Bakas - Forgot Password{% endblock %}
+
+{% block root_style %}style="max-width: 500px;"{% endblock %}
+
+{% block content %}
+<h1 class="mb-3 text-center">Forgot Password</h1>
+<form action="" method="POST">
+  {{ form.csrf_token }}
+  <div class="mb-3">
+    <b>{{ form.email_id.label(class='form-label', for='email_id') }}</b>
+    <div class="input-group {% if form.email_id.errors %}has-validation{% endif %}">
+      <span class="input-group-text" id="email-addon">@</span>
+      {% if form.email_id.errors %}
+      {{ form.email_id(class='form-control is-invalid', placeholder='Enter Email ID', aria_describedby='email-addon validation-error') }}
+      {% for error in form.email_id.errors %}
+      <div id="validation-error" class="invalid-feedback">
+        {{ error }}
+      </div>
+      {% endfor %}
+      {% else %}
+      {{ form.email_id(class='form-control', placeholder='Enter Email ID', aria_describedby='email-addon') }}
+      {% endif %}
+    </div>
+  </div>
+  {{ form.submit(class='btn btn-primary text-center w-100') }}
+</form>
+{% endblock %}
+
+
+

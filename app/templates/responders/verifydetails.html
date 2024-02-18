@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Sussy Bakas - Details Verified Successfully{% endblock %}
+
+{% block root_style %}style="max-width: 520px;"{% endblock %}
+
+{% block content %}
+<div class="alert alert-success mb-0 text-center" role="alert">
+  <h4 class="alert-heading">
+    {% if identity == 'email_id' %}Email ID{% else %}Phone{% endif %} Verified Successfully! ✅</h4>
+  <p>
+    Your details have been verified successfully and from now on, you'll be notified whenever a street light in your area goes faulty.
+  </p>
+</div>
+{% endblock %}

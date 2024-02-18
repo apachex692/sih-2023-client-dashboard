@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Sussy Bakas - Reset Password{% endblock %}
+
+{% block root_style %}style="max-width: 500px;"{% endblock %}
+
+{% block content %}
+<h1 class="mb-3 text-center">Reset Password</h1>
+<form action="" method="POST">
+  {{ form.csrf_token }}
+  <div class="mb-3">
+    <b>{{ form.password.label(class='form-label', for='password') }}</b>
+    {{ form.password(class='form-control', placeholder='Enter Password') }}
+  </div>
+  <div class="mb-3">
+    <b>{{ form.confirm_password.label(class='form-label', for='confirm_password') }}</b>
+    {% if form.confirm_password.errors %}
+    {{ form.confirm_password(class='form-control is-invalid', placeholder='Repeat the Same Password',
+    aria_describedby='validation-error') }}
+    {% for error in form.confirm_password.errors %}
+    <div id="validation-error" class="invalid-feedback">
+      {{ error }}
+    </div>
+    {% endfor %}
+    {% else %}
+    {{ form.confirm_password(class='form-control', placeholder='Repeat the Same Password') }}
+    {% endif %}
+  </div>
+  {{ form.submit(class='btn btn-primary text-center w-100') }}
+</form>
+{% endblock %}

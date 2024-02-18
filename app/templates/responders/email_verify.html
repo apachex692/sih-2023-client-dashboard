@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sussy Bakas - Verify Details</title>
+  <style>
+    #content {
+      background-color: #212529;
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      color: #dee2e6;
+      font-family: "Helvetica Neue", "Liberation Sans", Roboto, Arial, system-ui;
+      margin: 10px auto;
+      max-width: 600px;
+      padding: 10px;
+    }
+    #content h1 {
+      text-align: center;
+    }
+    #content .indent {
+      margin-top: 0px;
+      text-indent: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="content">
+    <h1>Sussy Bakas - Verify Details</h1>
+    <hr>
+    <b>Dear Lineman,</b>
+    <p class="indent">
+      You have been added to the database by our admins. We're sending this email to you to verify your details. Kindly check the details given below and if they're correct, click the link to confirm it. This link will be valid for only one day.
+    </p>
+    <ul>
+      <li><b>Full Name:</b> %s</li>
+      <li><b>Area:</b> %s</li>
+      <li><b>Preferred Language:</b> %s</li>
+    </ul>
+    <p>
+      <b>Verify Details:</b>
+      <a href="%s">Click Here</a>
+    </p>
+    <p>
+      <b>Regards,</b>
+      <br>
+      Team Sussy Bakas
+    </p>
+  </div>
+</body>
+</html>

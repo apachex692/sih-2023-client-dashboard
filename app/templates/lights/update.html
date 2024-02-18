@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Sussy Bakas - Update Street Light{% endblock %}
+
+{% block root_style %}style="max-width: 500px;"{% endblock %}
+
+{% block content %}
+<h1 class="mb-3 text-center">Update Street Light</h1>
+<form action="" method="POST">
+  {{ form.csrf_token }}
+  <div class="mb-3">
+    <b>{{ form.automation_type.label(class='form-label', for='automation_type') }}</b>
+    {{ form.automation_type(class='form-select') }}
+  </div>
+  <div class="mb-3">
+    <label for="brightness-range" class="form-label"><b>Brightness (%)</b></label>
+    <input type="range" class="form-range" id="brightness-range">
+  </div>
+  {{ form.submit(class='btn btn-warning text-center w-100', value='Update Street Light') }}
+</form>
+{% endblock %}

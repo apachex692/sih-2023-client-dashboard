@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+
+{% block title %}Sussy Bakas - Responders{% endblock %}
+
+{% block style %}
+<style>
+  td, th {
+    white-space: nowrap;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1 class="mb-3 text-center">Responders</h1>
+<div class="d-flex align-items-center flex-wrap justify-content-center mb-3">
+  <div class="mb-3 mb-xl-0">
+    <a class="btn btn-primary" href="{{ url_for('responders.create_handle') }}">Add Responder</a>
+  </div>
+  <div class="d-none d-xl-block vr mx-3"></div>
+  <form class="flex-fill" action="" method="GET">
+    <div class="row">
+      <div class="col-lg-9 mb-3 mb-lg-0">
+        <div class="row">
+          <div class="col-md mb-3 mb-md-0">
+            <select class="d-inline form-select" aria-label="Per Page" name="per_page">
+              <option selected value=''>Per Page</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </div>
+          <div class="col-md mb-3 mb-md-0">
+            <select id="filter-by" class="form-select" aria-label="Filter By" name="filter_by">
+              <option selected value=''>Filter by</option>
+              <option value="first_name">First Name</option>
+              <option value="last_name">Last Name</option>
+              <option value="email_id">Email ID</option>
+              <option value="phone">Phone</option>
+              <option value="area">Area</option>
+              <option value="preferred_language">Preferred Language</option>
+              <option value="is_working">Is Working</option>
+              <option value="activation_status">Activation Status</option>
+            </select>
+          </div>
+          <div class="col-md">
+            <input type="text" id="query-input" class="form-control" name="query" placeholder="Enter your Query">
+            <select name="query" id="query-selector" class="form-select" style="display: none;"></select>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3">
+        <div class="row">
+          <div class="col">
+            <button class="btn btn-success w-100" type="submit">Filter</button>
+          </div>
+          <div class="col">
+            <a class="btn btn-danger w-100" href="{{ url_for('responders.index_handle') }}">Remove</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+{% if responders.items | length %}
+<div class="table-responsive border mb-3 rounded">
+  <table class="table table-hover mb-0">
+    <caption class="ms-2">Displaying: {{ responders.items | length }}/{{ responders.total }}</caption>
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Email ID</th>
+        <th scope="col">Phone #</th>
+        <th scope="col">Area</th>
+        <th scope="col">Preferred Language</th>
+        <th scope="col">Is Working?</th>
+        <th scope="col">Activation Status</th>
+        <th scope="col" colspan="2">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for responder in responders.items %}
+      <tr>
+        <th scope="row">{{ loop.index }}</th>
+        <td>{{ responder.full_name }}</td>
+        <td>{{ responder.email_id }}</td>
+        <td>{{ '+91 ' + responder.phone[:5] + ' ' + responder.phone[5:] }}</td>
+        <td>{{ responder.area }}</td>
+        <td>{{ responder.preferred_language }}</td>
+        {% if responder.is_working %}
+        <td class="text-success">Yes</td>
+        {% else %}
+        <td>No</td>
+        {% endif %}
+        {% if responder.email_verified and not responder.phone_verified %}
+        <td class="text-warning">Email Verified; Phone Unverified</td>
+        {% elif responder.phone_verified and not responder.email_verified %}
+        <td class="text-warning">Phone Verified; Email Unverified</td>
+        {% elif responder.email_verified and responder.phone_verified %}
+        <td class="text-success">Verified</td>
+        {% else %}
+        <td class="text-danger">Unverified</td>
+        {% endif %}
+        <td>
+          <a href="{{ url_for('responders.update_handle', id=responder.id) }}" class="text-warning" style="text-decoration: none;">Update</a>
+        </td>
+        <td>
+          <a href="{{ url_for('responders.delete_handle', id=responder.id) }}" class="text-danger" style="text-decoration: none;">Delete</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="alert alert-primary mx-auto mb-0 text-center" role="alert" style="max-width: 500px;">
+  <h4 class="alert-heading">No Responder</h4>
+  <p class="mb-0">
+    There are no linemans available in the database. To add a lineman, click "Add Responder" button.
+  </p>
+</div>
+{% endif %}
+<nav>
+  <ul class="mb-0 pagination">
+    {% for page in responders.iter_pages() %}
+    <li class="page-item">
+      {% if page %}
+      {% if page != responders.page %}
+      <a href="{{ url_for('responders.index_handle', page=page) }}" class="page-link">{{ page }}</a>
+      {% else %}
+      <a class="page-link">{{ page }}</a>
+      {% endif %}
+      {% else %}
+      <a class="page-link">...</a>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+</nav>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/responders.js') }}"></script>
+{% endblock %}
