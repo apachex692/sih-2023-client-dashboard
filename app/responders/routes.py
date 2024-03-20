@@ -101,6 +101,9 @@ def create_handle():
         responder = Responder()
 
         form.populate_obj(obj=responder)
+
+        responder.phone_verified = not current_app.config.get("TWILIO_SEND_SMS", False)
+
         db_handle.session.add(responder)
         db_handle.session.commit()
 

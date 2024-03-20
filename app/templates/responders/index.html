@@ -91,7 +91,7 @@
         {% if responder.is_working %}
         <td class="text-success">Yes</td>
         {% else %}
-        <td>No</td>
+        <td class="text-danger">No</td>
         {% endif %}
         {% if responder.email_verified and not responder.phone_verified %}
         <td class="text-warning">Email Verified; Phone Unverified</td>

@@ -11,3 +11,7 @@ def index_handle():
 @main_bp_handle.route("/about")
 def about_handle():
     return render_template("/main/about.html")
+
+@main_bp_handle.route("/test/socket")
+def testsocket_handle():
+    return render_template("/main/testsocket.html")

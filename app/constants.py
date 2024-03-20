@@ -8,10 +8,10 @@ EXTERNAL_URL_ROOT = "http://192.168.0.210:5000"
 AREA_FORM_CHOICES = [
     "Avadi",
     "Ambattur",
-    "Ariyalur",
+    "Annanur",
     "Anna Nagar",
-    "Baka Night Club",
-    "Boat Club"
+    "T. Nagar",
+    "Mount Road"
 ]
 PREFERRED_LANGUAGE_FORM_CHOICES = [
     "Tamil",

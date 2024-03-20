@@ -10,6 +10,7 @@ from flask import (
     url_for
 )
 from flask_login import login_required
+from sqlalchemy import func
 
 from app import db_handle
 from app.constants import (
@@ -31,7 +32,25 @@ def index_handle():
         max_per_page=100
     )
 
-    return render_template("/lights/index.html", lights=lights)
+    active_count = Light.query.with_entities(
+        func.count()).filter(Light.status_code == 0
+    ).scalar()
+    under_maintenance_count = Light.query.with_entities(
+        func.count()).filter(Light.status_code == 1
+    ).scalar()
+    inactive_count = Light.query.with_entities(
+        func.count()).filter(Light.status_code == 2
+    ).scalar()
+
+    return render_template(
+        "/lights/index.html",
+        lights=lights,
+        counts={
+            "active": active_count,
+            "under_maintenance": under_maintenance_count,
+            "inactive": inactive_count
+        }
+    )
 
 @lights_bp_handle.route("/create", methods=["GET", "POST"])
 @login_required

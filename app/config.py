@@ -21,5 +21,7 @@ class DevelopmentConfig:
     MAIL_PASSWORD = getenv("FLASK_MAIL_PASSWORD")
     MAIL_DEFAULT_SENDER = getenv("FLASK_MAIL_DEFAULT_SENDER")
 
+    TWILIO_SEND_SMS = False
+
 class TestingConfig:
     pass

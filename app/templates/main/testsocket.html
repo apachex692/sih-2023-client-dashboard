@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Sussy Bakas - About{% endblock %}
+
+{% block content %}
+<h1 class="mb-3 text-center">Socket Testing Utility</h1>
+<div class="d-flex justify-content-center">
+  <button id="send-btn" class="btn border">Send Data (event: <code>data_ingress</code>)</button>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js" integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO" crossorigin="anonymous"></script>
+<script>
+  let socketHandle = io("127.0.0.1:5000/rtdatastream");
+
+  socketHandle.on("data_egress", function(data) {
+    console.log(data)
+  });
+
+  document.getElementById("send-btn").addEventListener("click", function() {
+    socketHandle.emit("data_ingress", {"data": "123"});
+  });
+</script>
+{% endblock %}

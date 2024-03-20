@@ -45,10 +45,57 @@
 </div>
 <hr>
 <div>
-  <h2>Analytics</h2>
+  <h2>Live Data Feed</h2>
+  <div class="d-flex">
+    <select id="light-select" class="form-select" aria-label="Select a Light">
+      <option selected value="0">Select a Light</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+    </select>
+  </div>
+  <div id="live-feed" class="bg-light border overflow-auto rounded font-monospace mt-3 p-3" style="display: none; max-height: 500px;">
+  </div>
 </div>
 {% endblock %}
 
 {% block script %}
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js" integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO" crossorigin="anonymous"></script>
+<script>
+  let socketHandle = io("127.0.0.1:5000/rtdatastream");
+
+  socketHandle.on("data_egress", data => {
+    var element = document.getElementById("live-feed");
+
+    element.style.display = "block";
+
+    element.appendChild(
+      document.createTextNode(`${JSON.stringify(new Date())} => ${JSON.stringify(data)}`)
+    );
+    element.appendChild(
+      document.createElement("br")
+    );
+  });
+
+  document.getElementById("light-select").addEventListener("change", function() {
+    var selectedOption = parseInt(this.value);
+
+    if (selectedOption) {
+      var element = document.getElementById("live-feed");
+
+      element.innerHTML = "";
+      element.style.display = "block";
+
+      element.appendChild(
+        document.createTextNode(`ID: ${selectedOption}`)
+      );
+      element.appendChild(
+        document.createElement("br")
+      );
+    }
+  });
+</script>
 {% endblock %}

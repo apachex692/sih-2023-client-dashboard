@@ -3,6 +3,7 @@
 from flask import Flask
 from flask_login import LoginManager
 from flask_mail import Mail
+from flask_socketio import SocketIO
 from flask_sqlalchemy import SQLAlchemy
 
 from app.config import (
@@ -19,6 +20,8 @@ from app.constants import (
 db_handle = SQLAlchemy()
 lm_handle = LoginManager()
 mail_handle = Mail()
+socketio_handle = SocketIO()
+
 
 lm_handle.login_view = LOGIN_VIEW_HANDLER
 lm_handle.login_message = LOGIN_MESSAGE
@@ -40,6 +43,7 @@ def create_app(config: str=None):
     db_handle.init_app(app_handle)
     lm_handle.init_app(app_handle)
     mail_handle.init_app(app_handle)
+    socketio_handle.init_app(app_handle)
 
     from app.auth.routes import auth_bp_handle
     from app.lights.routes import lights_bp_handle
@@ -52,6 +56,10 @@ def create_app(config: str=None):
     app_handle.register_blueprint(main_bp_handle)
     app_handle.register_blueprint(responders_bp_handle, url_prefix="/responders")
     app_handle.register_blueprint(tickets_bp_handle, url_prefix="/tickets")
+
+    from app.sockets.routes import RTDataStream
+
+    socketio_handle.on_namespace(RTDataStream("/rtdatastream"))
 
     import app.errors.routes as error_handler
 

@@ -19,30 +19,25 @@
         Register Street Light
       </a>
     </div>
-    <div class="col">
-      <a href="#" class="btn btn-success" style="white-space: nowrap;">
-        Export
-      </a>
-    </div>
   </div>
   <div class="d-none d-lg-block vr mx-3"></div>
   <div class="row">
     <div class="col-md mb-1 mb-md-0">
       <div class="d-flex align-items-center border p-1 rounded">
         <div class="d-inline-block rounded text-bg-success me-2" style="width: 30px; height: 30px;"></div>
-        <div class="stats-wrapper"><b>Active</b> (1250)</div>
+        <div class="stats-wrapper"><b>Active</b> ({{ counts['active'] }})</div>
       </div>
     </div>
     <div class="col-md mb-1 mb-md-0">
       <div class="d-flex align-items-center border p-1 rounded">
         <div class="d-inline-block rounded text-bg-warning me-2" style="width: 30px; height: 30px;"></div>
-        <div class="stats-wrapper"><b>Maintenance</b> (2)</div>
+        <div class="stats-wrapper"><b>Under Maintenance</b> ({{ counts['under_maintenance'] }})</div>
       </div>
     </div>
     <div class="col-md">
       <div class="d-flex align-items-center border p-1 rounded">
         <div class="d-inline-block rounded text-bg-danger me-2" style="width: 30px; height: 30px;"></div>
-        <div class="stats-wrapper"><b>Inactive</b> (2)</div>
+        <div class="stats-wrapper"><b>Inactive</b> ({{ counts['inactive'] }})</div>
       </div>
     </div>
   </div>
@@ -59,7 +54,6 @@
         <th scope="col">Status</th>
         <th scope="col">Last Maintenance</th>
         <th scope="col">Automation</th>
-        <th scope="col">Brightness (%)</th>
         <th scope="col" colspan="3">Actions</th>
       </tr>
     </thead>
@@ -69,7 +63,13 @@
         <th scope="row">{{ loop.index }}</th>
         <td>{{ light.area }}</td>
         <td>({{ light.latitude }}, {{ light.longitude }})</td>
-        <td>{{ light.status_code }}</td>
+        {% if light.status_code == 0 %}
+        <td class="text-success">Active</td>
+        {% elif light.status_code == 1 %}
+        <td class="text-warning">Under Maintenance</td>
+        {% else %}
+        <td class="text-danger">Inactive</td>
+        {% endif %}
         <td>{{ light.last_maintenance.strftime("%d/%m/%Y %H:%M:%S") }}</td>
         {% if light.automation_type == 0 %}
         <td>No Automation</td>
@@ -78,7 +78,6 @@
         {% else %}
         <td>Time-based</td>
         {% endif %}
-        <td>80</td>
         <td>
           <a href="{{ url_for('lights.update_handle', id=light.id) }}" class="text-warning"
             style="text-decoration: none;">Update</a>
