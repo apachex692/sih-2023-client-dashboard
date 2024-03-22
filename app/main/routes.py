@@ -27,7 +27,7 @@ def index_handle():
             )
         ).add_to(map_obj)
 
-    map_obj.get_root().width = "700px"
+    map_obj.get_root().width = "100%"
     map_obj.get_root().height = "500px"
     iframe = map_obj.get_root()._repr_html_()
 
