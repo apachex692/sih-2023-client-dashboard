@@ -25,6 +25,20 @@ LIGHT_AUTOMATION_TYPE_FORM_CHOICES = [
     (1, "Daylight-based"),
     (2, "Time-based")
 ]
+LIGHT_STATUS_CODE = {
+    0: {"color": "green", "icon": "thumbs-up"},
+    1: {"color": "beige", "icon": "spinner"},
+    2: {"color": "red", "icon": "down-long"}
+}
+
+MAP_LIGHT_MARKER_POPUP_TEMPLATE = """\
+<b>ID:</b> %d
+<br>
+<b>Location:</b> (%f, %f)
+<br>
+<b>Status:</b> %d
+<br>
+"""
 
 LOGIN_MESSAGE = "You must first log-in to access this page."
 
