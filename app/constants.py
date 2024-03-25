@@ -1,5 +1,7 @@
 # Author: Sakthi Santhosh
 # Created on: 16/10/2023
+SERIAL_PORT = "/dev/ttyUSB0"
+
 LOGIN_VIEW_HANDLER = "auth.login_handle"
 LOGIN_MESSAGE_CATEGORY = "warning"
 

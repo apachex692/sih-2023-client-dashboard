@@ -2,8 +2,6 @@
 # Created on: 20/03/2024
 from flask_socketio import Namespace, emit
 
-from app import socketio_handle
-
 class RTDataStream(Namespace):
     def on_connect(self):
         pass

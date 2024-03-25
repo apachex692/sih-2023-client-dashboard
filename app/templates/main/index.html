@@ -65,7 +65,7 @@
 {% block script %}
 <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO" crossorigin="anonymous"></script>
 <script>
-  let socketHandle = io("127.0.0.1:5000/rtdatastream");
+  let socketHandle = io("/rtdatastream");
 
   socketHandle.on("data_egress", data => {
     var element = document.getElementById("live-feed");

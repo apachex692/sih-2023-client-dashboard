@@ -14,7 +14,8 @@ from app.config import (
 from app.constants import (
     LOGIN_VIEW_HANDLER,
     LOGIN_MESSAGE,
-    LOGIN_MESSAGE_CATEGORY
+    LOGIN_MESSAGE_CATEGORY,
+    SERIAL_PORT
 )
 
 db_handle = SQLAlchemy()
@@ -58,8 +59,10 @@ def create_app(config: str=None):
     app_handle.register_blueprint(tickets_bp_handle, url_prefix="/tickets")
 
     from app.sockets.routes import RTDataStream
+    #from app.utils import SerialToSocketDaemon
 
     socketio_handle.on_namespace(RTDataStream("/rtdatastream"))
+    #SerialToSocketDaemon(SERIAL_PORT).start()
 
     import app.errors.routes as error_handler
 
