@@ -32,25 +32,19 @@ def index_handle():
         max_per_page=100
     )
 
-    active_count = Light.query.with_entities(
-        func.count()).filter(Light.status_code == 0
-    ).scalar()
-    under_maintenance_count = Light.query.with_entities(
-        func.count()).filter(Light.status_code == 1
-    ).scalar()
-    inactive_count = Light.query.with_entities(
-        func.count()).filter(Light.status_code == 2
-    ).scalar()
+    stats = {
+        "active": Light.query.with_entities(
+            func.count()).filter(Light.status_code == 0
+        ).scalar(),
+        "under_maintenance": Light.query.with_entities(
+            func.count()).filter(Light.status_code == 1
+        ).scalar(),
+        "inactive": Light.query.with_entities(
+            func.count()).filter(Light.status_code == 3
+        ).scalar(),
+    }
 
-    return render_template(
-        "/lights/index.html",
-        lights=lights,
-        counts={
-            "active": active_count,
-            "under_maintenance": under_maintenance_count,
-            "inactive": inactive_count
-        }
-    )
+    return render_template("/lights/index.html", lights=lights, stats=stats)
 
 @lights_bp_handle.route("/create", methods=["GET", "POST"])
 @login_required

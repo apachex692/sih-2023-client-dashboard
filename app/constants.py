@@ -27,18 +27,19 @@ LIGHT_AUTOMATION_TYPE_FORM_CHOICES = [
     (1, "Daylight-based"),
     (2, "Time-based")
 ]
-LIGHT_STATUS_CODE = {
-    0: {"color": "green", "icon": "thumbs-up"},
-    1: {"color": "beige", "icon": "spinner"},
-    2: {"color": "red", "icon": "down-long"}
-}
+LIGHT_STATUS_CODE = [
+    {"color": "green", "icon": "up-long", "disp": "Active"},
+    {"color": "beige", "icon": "spinner", "disp": "Under Maintenance"},
+    {"color": "orange", "icon": "circle-xmark", "disp": "Primary Light Failure"},
+    {"color": "red", "icon": "down-long", "disp": "Inactive"},
+]
 
 MAP_LIGHT_MARKER_POPUP_TEMPLATE = """\
 <b>ID:</b> %d
 <br>
 <b>Location:</b> (%f, %f)
 <br>
-<b>Status:</b> %d
+<b>Status:</b> %s
 <br>
 """
 
@@ -69,6 +70,10 @@ INVALID_TOKEN_MESSAGE = """\
 This link is either invalid or has expired. Regenerate a new token by following the necessary procedure.
 """
 
+INVALID_ACKNOWLEDGEMENT_MESSAGE = """\
+Invalid acknowledgement link.
+"""
+
 RESETPW_SUCCESS_MESSAGE = """\
 Good job %s, your password has been reset successfully. You can now use the new password to log-in to the website.
 """
@@ -85,6 +90,16 @@ RESPONDER_PHONE_VERIFICATION_SMS = """Dear Lineman,
     You have been added to the database by our admins. We're sending this SMS to you to verify your details. Kindly check the details given below and if they're correct, click the link to confirm it. This link will be valid for only one day.
 
 Verify Details Link: %s
+
+Regards,
+Team Sussy Bakas
+"""
+
+RESPONDER_MAINTENANCE_SMS = """Dear Lineman,
+    A street light went haywire in your area. You are requested to fix it before tomorrow. Thank you.
+
+Location (faulty street light): %s
+Acknowledgement: %s
 
 Regards,
 Team Sussy Bakas

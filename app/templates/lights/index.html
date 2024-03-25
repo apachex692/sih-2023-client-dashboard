@@ -25,19 +25,19 @@
     <div class="col-md mb-1 mb-md-0">
       <div class="d-flex align-items-center border p-1 rounded">
         <div class="d-inline-block rounded text-bg-success me-2" style="width: 30px; height: 30px;"></div>
-        <div class="stats-wrapper"><b>Active</b> ({{ counts['active'] }})</div>
+        <div class="stats-wrapper"><b>Active</b> ({{ stats['active'] }})</div>
       </div>
     </div>
     <div class="col-md mb-1 mb-md-0">
       <div class="d-flex align-items-center border p-1 rounded">
         <div class="d-inline-block rounded text-bg-warning me-2" style="width: 30px; height: 30px;"></div>
-        <div class="stats-wrapper"><b>Under Maintenance</b> ({{ counts['under_maintenance'] }})</div>
+        <div class="stats-wrapper"><b>Under Maintenance</b> ({{ stats['under_maintenance'] }})</div>
       </div>
     </div>
     <div class="col-md">
       <div class="d-flex align-items-center border p-1 rounded">
         <div class="d-inline-block rounded text-bg-danger me-2" style="width: 30px; height: 30px;"></div>
-        <div class="stats-wrapper"><b>Inactive</b> ({{ counts['inactive'] }})</div>
+        <div class="stats-wrapper"><b>Inactive</b> ({{ stats['inactive'] }})</div>
       </div>
     </div>
   </div>
@@ -60,13 +60,15 @@
     <tbody>
       {% for light in lights.items %}
       <tr>
-        <th scope="row">{{ loop.index }}</th>
+        <th scope="row">{{ light.id }}</th>
         <td>{{ light.area }}</td>
         <td>({{ light.latitude }}, {{ light.longitude }})</td>
         {% if light.status_code == 0 %}
         <td class="text-success">Active</td>
         {% elif light.status_code == 1 %}
         <td class="text-warning">Under Maintenance</td>
+        {% elif light.status_code == 2 %}
+        <td class="text-danger">Primary Light Failure</td>
         {% else %}
         <td class="text-danger">Inactive</td>
         {% endif %}

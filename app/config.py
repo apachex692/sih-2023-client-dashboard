@@ -1,12 +1,13 @@
 # Author: Sakthi Santhosh
 # Created on: 16/10/2023
 from os import getenv
+from uuid import uuid4
 
 class DeploymentConfig:
     pass
 
 class DevelopmentConfig:
-    SECRET_KEY = "bb57ede9-6bcd-434b-b9d8-3b45ad3ff251"
+    SECRET_KEY = getenv("FLASK_SECRET_KEY", str(uuid4()))
     DEBUG = True
 
     SQLALCHEMY_DATABASE_URI = "sqlite:///dev.db"
@@ -21,7 +22,7 @@ class DevelopmentConfig:
     MAIL_PASSWORD = getenv("FLASK_MAIL_PASSWORD")
     MAIL_DEFAULT_SENDER = getenv("FLASK_MAIL_DEFAULT_SENDER")
 
-    TWILIO_SEND_SMS = False
+    TWILIO_SEND_SMS = True
 
 class TestingConfig:
     pass

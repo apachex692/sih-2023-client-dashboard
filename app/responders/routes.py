@@ -17,11 +17,13 @@ from app import db_handle
 from app.auth.models import User
 from app.constants import (
     EXTERNAL_URL_ROOT,
+    INVALID_ACKNOWLEDGEMENT_MESSAGE,
     INVALID_TOKEN_MESSAGE,
     RESPONDER_CREATION_SUCCESS_MESSAGE,
     RESPONDER_DELETION_SUCCESS_MESSAGE,
     RESPONDER_PHONE_VERIFICATION_SMS
 )
+from app.lights.models import Light
 from app.responders.forms import CreateResponderForm
 from app.responders.models import Responder
 from app.utils import send_email, send_sms
@@ -193,8 +195,6 @@ def update_handle(id):
                 )
 
             form.populate_obj(obj=responder)
-
-            db_handle.session.add(responder)
             db_handle.session.commit()
             flash(RESPONDER_CREATION_SUCCESS_MESSAGE, "success")
             return redirect(url_for(
@@ -238,6 +238,20 @@ def verifydetails_handle(jwt):
         flash(INVALID_TOKEN_MESSAGE, "danger")
         return redirect("responders.index_handle")
 
-    db_handle.session.add(responder)
     db_handle.session.commit()
     return render_template("/responders/verifydetails.html", identity=payload["identity"])
+
+@responders_bp_handle.route("/mt-confirm")
+def maintenance_confirm_handle():
+    light = Light.query.get(int(request.args.get("light", -1)))
+    responder = Responder.query.get(int(request.args.get("responder", -1)))
+
+    if not light or not responder:
+        flash(INVALID_ACKNOWLEDGEMENT_MESSAGE, "danger")
+        return redirect(url_for("responders.index_handle"))
+
+    light.status_code = 1
+    responder.is_working = True
+
+    db_handle.session.commit()
+    return render_template("/responders/acknowledgement.html")

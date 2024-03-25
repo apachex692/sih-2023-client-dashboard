@@ -73,3 +73,9 @@ sudo ./shell/nginx_init.sh maintenance
 ```sh
 gunicorn --workers 4 "app:create_app('development')"
 ```
+
+## Unimplemented Logic
+
+1. When a light is fixed (the light sends a 0 status code), there is no mechanism to update the responder's `is_working` state to `False`. This actually requires tracking of responder by storing them as a foriegn key to the `Light` database.
+2. The responder acknowledgement URL doesn't have any token mechanism to validate the legitimacy of it. This can be exploited.
+3. Email and SMS internationlization have not been performed yet.

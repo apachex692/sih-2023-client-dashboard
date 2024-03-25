@@ -9,34 +9,32 @@
   <em class="">Hello, {{ current_user.full_name }}!</em>
   {% endif %}
 </div>
+<hr>
 <div class="row align-items-center mb-3">
-  <div class="col-xl mb-3 mb-xl-0 text-center">
+  <h2>Overview</h2>
+  <div class="col-xl-8 mb-3 mb-xl-0 text-center">
     <div class="border rounded">{{ map_iframe | safe }}</div>
   </div>
-  <div class="col-xl">
+  <div class="col-xl-4">
     <div class="table-responsive border rounded">
       <table class="table table-hover mb-0">
         <caption class="ms-2">Overall Statistics</caption>
         <tbody>
           <tr>
             <th scope="row">Registered Street Lights</th>
-            <td>128</td>
+            <td>{{ light_stats['active'] + light_stats['under_maintenance'] + light_stats['inactive'] }}</td>
           </tr>
           <tr>
             <th scope="row">Registered Workers</th>
-            <td>12</td>
-          </tr>
-          <tr>
-            <th scope="row">Total Power Consumption (KW)</th>
-            <td>256</td>
+            <td>{{ responder_stats['total'] }}</td>
           </tr>
           <tr>
             <th scope="row">Active Street Lights</th>
-            <td>256</td>
+            <td>{{ light_stats['active'] }}</td>
           </tr>
           <tr>
             <th scope="row">Inactive Street Lights</th>
-            <td>12</td>
+            <td>{{ light_stats['inactive'] }}</td>
           </tr>
         </tbody>
       </table>
@@ -46,56 +44,15 @@
 <hr>
 <div>
   <h2>Live Data Feed</h2>
-  <div class="d-flex">
-    <select id="light-select" class="form-select" aria-label="Select a Light">
-      <option selected value="0">Select a Light</option>
-      <option value="1">1</option>
-      <option value="2">2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
-      <option value="5">5</option>
-      <option value="6">6</option>
-    </select>
+  <div>
+    <button id="live-data-btn" class="btn btn-primary">View Live Data</button>
   </div>
-  <div id="live-feed" class="bg-light border overflow-auto rounded font-monospace mt-3 p-3" style="display: none; max-height: 500px;">
+  <div id="live-feed" class="bg-light border overflow-auto rounded font-monospace mt-3 p-3" style="display: none; max-height: 500px; font-family: 'Courier New', Courier, monospace !important;">
   </div>
 </div>
 {% endblock %}
 
 {% block script %}
 <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO" crossorigin="anonymous"></script>
-<script>
-  let socketHandle = io("/rtdatastream");
-
-  socketHandle.on("data_egress", data => {
-    var element = document.getElementById("live-feed");
-
-    element.style.display = "block";
-
-    element.appendChild(
-      document.createTextNode(`${JSON.stringify(new Date())} => ${JSON.stringify(data)}`)
-    );
-    element.appendChild(
-      document.createElement("br")
-    );
-  });
-
-  document.getElementById("light-select").addEventListener("change", function() {
-    var selectedOption = parseInt(this.value);
-
-    if (selectedOption) {
-      var element = document.getElementById("live-feed");
-
-      element.innerHTML = "";
-      element.style.display = "block";
-
-      element.appendChild(
-        document.createTextNode(`ID: ${selectedOption}`)
-      );
-      element.appendChild(
-        document.createElement("br")
-      );
-    }
-  });
-</script>
+<script src="{{ url_for('static', filename='js/main-index.min.js') }}"></script>
 {% endblock %}

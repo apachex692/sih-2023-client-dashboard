@@ -2,10 +2,17 @@
 
 {% block title %}Sussy Bakas - About{% endblock %}
 
+{% block root_style %}
+style="max-width: 500px;"
+{% endblock %}
+
 {% block content %}
 <h1 class="mb-3 text-center">Socket Testing Utility</h1>
-<div class="d-flex justify-content-center">
-  <button id="send-btn" class="btn border">Send Data (event: <code>data_ingress</code>)</button>
+<div class="mb-3">
+  <b><label for="data-input" class="form-label">Data</label></b>
+  <input type="text" class="form-control" id="data-input">
+</div>
+<button id="send-btn" class="btn border w-100">Send Data (event: <code>data_ingress</code>)</button>
 </div>
 {% endblock %}
 
@@ -19,7 +26,9 @@
   });
 
   document.getElementById("send-btn").addEventListener("click", function() {
-    socketHandle.emit("data_ingress", {"data": "123"});
+    data = document.getElementById("data-input").value;
+
+    socketHandle.emit("data_ingress", data);
   });
 </script>
 {% endblock %}
