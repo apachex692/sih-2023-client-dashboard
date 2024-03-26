@@ -255,3 +255,20 @@ def maintenance_confirm_handle():
 
     db_handle.session.commit()
     return render_template("/responders/acknowledgement.html")
+
+@responders_bp_handle.route("/mt-compted")
+def maintenance_comptd_handle():
+    light = Light.query.get(int(request.args.get("light", -1)))
+    responder = Responder.query.get(int(request.args.get("responder", -1)))
+
+    if (
+        not responder or not light
+        or not responder.is_working or light.status_code
+    ):
+        flash(INVALID_ACKNOWLEDGEMENT_MESSAGE, "danger")
+        return redirect(url_for("responders.index_handle"))
+
+    responder.is_working = False
+
+    db_handle.session.commit()
+    return render_template("/responders/completed.html")

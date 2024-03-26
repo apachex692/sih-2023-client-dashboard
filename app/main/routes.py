@@ -14,7 +14,7 @@ main_bp_handle = Blueprint("main", __name__)
 @main_bp_handle.route('/')
 @login_required
 def index_handle():
-    map_obj = folium.Map([13.099334672659834, 80.15614658500027], zoom_start=100)
+    map_obj = folium.Map([13.355705926082562, 80.14110533254431], zoom_start=16)
 
     for light in Light.query.all():
         folium.Marker(

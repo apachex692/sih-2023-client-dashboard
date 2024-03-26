@@ -13,7 +13,7 @@ AREA_FORM_CHOICES = [
     "Annanur",
     "Anna Nagar",
     "T. Nagar",
-    "Mount Road"
+    "Kavaraipettai"
 ]
 PREFERRED_LANGUAGE_FORM_CHOICES = [
     "Tamil",
@@ -100,6 +100,7 @@ RESPONDER_MAINTENANCE_SMS = """Dear Lineman,
 
 Location (faulty street light): %s
 Acknowledgement: %s
+Completion: %s
 
 Regards,
 Team Sussy Bakas

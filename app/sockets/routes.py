@@ -19,8 +19,7 @@ class RTDataStream(Namespace):
         pass
 
     def on_data_ingress(self, data):
-        data = str(data)
-
+        print(data)
         action_delegator(data)
         emit("data_egress", data, broadcast=True)
 
@@ -35,39 +34,53 @@ def action_delegator(ingress_data: str) -> None: # <id>:<etype>,<id>:<etype>
         light = Light.query.get(id)
 
         if not light or light.status_code == err_type:
+            print('1')
             return
 
         light.status_code = err_type
 
         db_handle.session.commit()
         if err_type < 2:
+            print('2')
             return
 
         non_working_responders = Responder.query.filter_by(
             area=light.area, is_working=False
         ).all()
+
+        if not non_working_responders:
+            print('3')
+            return
+
         non_working_responder = rchoice(non_working_responders)
 
         maps_link = f"https://www.google.com/maps/place/{light.latitude},{light.longitude}"
 
         with current_app.test_request_context(EXTERNAL_URL_ROOT):
-            url = url_for(
+            ack_url = url_for(
                 "responders.maintenance_confirm_handle",
                 light=light.id,
                 responder=non_working_responder.id,
                 _external=True
             )
+            comptd_url = url_for(
+                "responders.maintenance_comptd_handle",
+                light=light.id,
+                responder=non_working_responder.id,
+                _external=True
+            )
 
+        print(component, ack_url)
         send_email(
             subject="Sussy Bakas - Maintenance Required",
             message=open(
                 "./app/templates/responders/email_maintenance.html", 'r',
                 encoding="utf-8"
-            ).read()%(maps_link, url),
+            ).read()%(maps_link, ack_url, comptd_url),
             recipients=[non_working_responder.email_id]
         )
         send_sms(
-            message=RESPONDER_MAINTENANCE_SMS%(maps_link, url),
+            message=RESPONDER_MAINTENANCE_SMS%(maps_link, ack_url, comptd_url),
             recipient=non_working_responder.phone
         )
         db_handle.session.commit()
